@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/category_info.dart';
+import '../../components/category_chips.dart';
 import '../../components/search_bar.dart';
 
 class NewsListPage extends StatelessWidget {
@@ -21,26 +23,33 @@ class NewsListPage extends StatelessWidget {
                 onSearch: (keyword) => getKeywordNews(context, keyword),
               ),
               //TODO カテゴリー選択Chips
-              //CategoryChips(),
-              //TODO 記事表示
-              Expanded(
-                  child: Center(
-                child: CircularProgressIndicator(),
-              )),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+              CategoryChips(
+                onCategorySelected: (category) => getCategoryNews(context, category),
+                              ),
+                              //TODO 記事表示
+                              Expanded(
+                                  child: Center(
+                                child: CircularProgressIndicator(),
+                              )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                
+                  //TODO 記事更新処理
+                  onReflesh(BuildContext context) {
+                    print("NewsListPage.onRefresh");
+                  }
+                
+                  //TODO キーワード記事取得処理
+                  getKeywordNews(BuildContext context, keyword) {
+                    print("NewsListPage.getKeywordNews");
+                  }
 
-  //TODO 記事更新処理
-  onReflesh(BuildContext context) {
-    print("NewsListPage.onRefresh");
-  }
-
-  //TODO キーワード記事取得処理
-  getKeywordNews(BuildContext context, keyword) {
-    print("NewsListPage.getKeywordNews");
-  }
+                  //TODO カテゴリー記事取得処理
+                  getCategoryNews(BuildContext context, Category category) {
+                    print("NewsListPage.getCategoryNews / category: ${category.nameJp}");
+                  }
 }
