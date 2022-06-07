@@ -10,6 +10,13 @@ import '../../components/search_bar.dart';
 class NewsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.read<NewsListViewModel>();
+
+    if (!viewModel.isLoading && viewModel.articles.isEmpty) {
+      Future(() => viewModel.getNews(
+          searchType: SearchType.CATEGORY, category: categories[0]));
+    }
+
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -43,7 +50,7 @@ class NewsListPage extends StatelessWidget {
   }
 
   //TODO 記事更新処理
-  Future<void> onReflesh(BuildContext context) async{
+  Future<void> onReflesh(BuildContext context) async {
     final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
     await viewModel.getNews(
         searchType: viewModel.searchType,
@@ -53,7 +60,7 @@ class NewsListPage extends StatelessWidget {
   }
 
   //TODO キーワード記事取得処理
-  Future<void> getKeywordNews(BuildContext context, keyword) async{
+  Future<void> getKeywordNews(BuildContext context, keyword) async {
     final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
     await viewModel.getNews(
         searchType: SearchType.KEYWORD,
@@ -63,9 +70,10 @@ class NewsListPage extends StatelessWidget {
   }
 
   //TODO カテゴリー記事取得処理
-  Future<void> getCategoryNews(BuildContext context, Category category) async{
+  Future<void> getCategoryNews(BuildContext context, Category category) async {
     final viewModel = Provider.of<NewsListViewModel>(context, listen: false);
-    await viewModel.getNews(searchType: SearchType.CATEGORY, category: category);
+    await viewModel.getNews(
+        searchType: SearchType.CATEGORY, category: category);
     print("NewsListPage.getCategoryNews / category: ${category.nameJp}");
   }
 }
