@@ -9,12 +9,16 @@ class ImageFromUrl extends StatelessWidget {
   Widget build(BuildContext context) {
     final isInvalidUrl =
         (imageUrl != null) ? imageUrl!.startsWith("http") : false;
+
+    final primaryColor = Theme.of(context).primaryColor;
+
     if (imageUrl == null || imageUrl == "" || !isInvalidUrl) {
       return const Icon(Icons.broken_image);
     } else {
       return CachedNetworkImage(
         imageUrl: imageUrl!,
-        placeholder: (context, url) => CircularProgressIndicator(),
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator(color: primaryColor,)),
         errorWidget: (context, url, error) => const Icon(Icons.broken_image),
         fit: BoxFit.fitHeight,
       );
