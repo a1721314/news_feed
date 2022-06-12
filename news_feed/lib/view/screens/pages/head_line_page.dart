@@ -23,45 +23,51 @@ class HeadLinePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Consumer<HeadLineViewModel>(
               builder: (context, model, child) {
-                return PageTransformer(
+                if (model.isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }else{
+                  return PageTransformer(
                   pageViewBuilder: (context, pageVisibilityResolver) {
                     return PageView.builder(
                         controller: PageController(viewportFraction: 0.85),
                         itemCount: model.articles.length,
                         itemBuilder: (context, index) {
                           final article = model.articles[index];
-                          final pageVisibility =
-                              pageVisibilityResolver.resolvePageVisibility(index);
-                          final visibleFraction = pageVisibility.visibleFraction;
+                          final pageVisibility = pageVisibilityResolver
+                              .resolvePageVisibility(index);
+                          final visibleFraction =
+                              pageVisibility.visibleFraction;
                           return HeadLineItem(
                             article: model.articles[index],
                             pageVisibility: pageVisibility,
-                            onArticleClicked: (article) => _openArticleWebPage(context ,article),
-                                                    );
-                                                  });
-                                            },
-                                          );
-                                        },
-                                      ),
+                            onArticleClicked: (article) =>
+                                _openArticleWebPage(context, article),
+                          );
+                        });
+                  },
+                );
+                } 
+              },
+            ),
           ),
-                                  ),
-                                  floatingActionButton: FloatingActionButton(
-                                    child: Icon(Icons.refresh),
-                                    onPressed: () => onRefresh(context),
-                                  ),
-                                ),
-                              );
-                            }
-                          
-                            //TO DO 更新処理
-                            onRefresh(BuildContext context) async {
-                              print("HeadLinePage.onRefresh");
-                              final viewModel = context.read<HeadLineViewModel>();
-                              await viewModel.getHeadLines(searchType: SearchType.HEAD_LINE);
-                            }
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.refresh),
+          onPressed: () => onRefresh(context),
+        ),
+      ),
+    );
+  }
 
-                            //TODO
-                            _openArticleWebPage(BuildContext context, Article article) {
-                              print("HeadLinePage._openArticleWebPage: ${article.url}");
-                            }
+  //TO DO 更新処理
+  onRefresh(BuildContext context) async {
+    print("HeadLinePage.onRefresh");
+    final viewModel = context.read<HeadLineViewModel>();
+    await viewModel.getHeadLines(searchType: SearchType.HEAD_LINE);
+  }
+
+  //TODO
+  _openArticleWebPage(BuildContext context, Article article) {
+    print("HeadLinePage._openArticleWebPage: ${article.url}");
+  }
 }

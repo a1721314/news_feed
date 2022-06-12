@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_feed/model/news_model.dart';
 import 'package:news_feed/view/components/image_from_url.dart';
+import 'package:news_feed/view/components/lazy_reload_text.dart';
 import 'package:news_feed/view/components/page_transformer.dart';
 
 class HeadLineItem extends StatelessWidget {
@@ -23,20 +24,30 @@ class HeadLineItem extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            ImageFromUrl(
+            DecoratedBox(
+              position: DecorationPosition.foreground,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black87,
+                    Colors.black26
+                  ]
+                )
+              ),
+              child: ImageFromUrl(
               imageUrl: article.urlToImage,
+              ),
             ),
             Positioned(
               bottom: 56.0,
               left: 32.0,
               right: 32.0,
-              child: Text(
-                article.title ?? "", 
-                style: textTheme.headline6?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-              ),
+              child: LazyLoadText(
+                text: article.title ?? "",
+                pageVisibility: pageVisibility,
+              )
             )
           ],
         ),
