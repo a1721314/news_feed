@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/model/news_model.dart';
 import 'package:news_feed/view/components/article_tile.dart';
+import 'package:news_feed/view/screens/news_web_page_screen.dart';
 import 'package:news_feed/viewmodels/news_list_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -89,5 +90,7 @@ class NewsListPage extends StatelessWidget {
   //TODO
   _openArticleWebPage(Article article, BuildContext context) {
     print("_openArticleWebPage: ${article.url}");
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => NewsWebPageScreen(article: article)));
   }
 }

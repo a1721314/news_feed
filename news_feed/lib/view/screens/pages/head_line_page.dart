@@ -3,6 +3,7 @@ import 'package:news_feed/data/search_type.dart';
 import 'package:news_feed/model/news_model.dart';
 import 'package:news_feed/view/components/head_line_item.dart';
 import 'package:news_feed/view/components/page_transformer.dart';
+import 'package:news_feed/view/screens/news_web_page_screen.dart';
 import 'package:news_feed/viewmodels/head_line_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -66,8 +67,9 @@ class HeadLinePage extends StatelessWidget {
     await viewModel.getHeadLines(searchType: SearchType.HEAD_LINE);
   }
 
-  //TODO
   _openArticleWebPage(BuildContext context, Article article) {
     print("HeadLinePage._openArticleWebPage: ${article.url}");
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => NewsWebPageScreen(article: article)));
   }
 }
