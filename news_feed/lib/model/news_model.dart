@@ -17,7 +17,7 @@ class Article {
   final String? url;
   final String? urlToImage;
   @JsonKey(name: "publishedAt") final String publishDate;
-  final String content;
+  final String? content;
 
   Article(
       {required this.title,
