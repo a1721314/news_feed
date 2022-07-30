@@ -8,6 +8,8 @@ import '../data/category_info.dart';
 import '../data/search_type.dart';
 import 'package:flutter/material.dart';
 
+import 'package:news_feed/util/extensions.dart';
+
 class NewsRepository {
   static const BASE_URL = "https://newsapi.org/v2/top-headlines?country=jp";
   static const API_KEY = "0295528e606f4f5291005a2bcfff514e";
@@ -52,9 +54,10 @@ class NewsRepository {
     final articles = News.fromJson(responseBody).articles;
 
     //TODO Webから取得した記事リスト（Dartのモデルクラス：Article）をDBのテーブルクラス（Articles）に変換してDB登録・DBから取得
-    await dao.insertAndReadNewsFromDB(articles);
+    final articleRecords =
+        await dao.insertAndReadNewsFromDB(articles.toArticleRecords(articles));
 
     //TODO DBから取得したデータをモデルクラスに再変換して返す
-    
+    return articleRecords.toArticleRecords(articleRecords);
   }
 }
